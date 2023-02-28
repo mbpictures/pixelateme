@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 import versioneer
 
 with open('README.md', 'r') as fh:
-    long_description = fh.read("README.md")
+    long_description = fh.read()
 
 setup(
     name='PixelateMe',
@@ -13,19 +13,18 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/mbpictures/pixelateme',
-    packages=find_packages(),
+    packages=find_packages(include=["pixelateme"]),
     entry_points={'console_scripts': [
         'pixelateme = pixelateme.cli:main',
     ]},
     package_data={'pixelateme': ['centerface.onnx']},
     include_package_data=True,
     install_requires=[
-        'imageio',
-        'imageio-ffmpeg',
-        'numpy',
+        'deepface',
         'tqdm',
-        'scikit-image',
         'opencv-python',
+        'onnx',
+        'onnxruntime'
     ],
     extras_require={
         'gpu':  ['onnxruntime-gpu'],
