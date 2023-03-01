@@ -7,7 +7,7 @@ def parse_args():
     args = argparse.ArgumentParser(prog="PixelateMe", description="Pixelate all faces on a image or video")
     args.add_argument("path", nargs="*", help="File path(s) and folders containing images and/or videos to pixelate")
     args.add_argument("--suffix", default="", help="A suffix which is concatenated to processed files")
-    args.add_argument("--output", "-o", default="pixelated", help="Output directory, where all pixelated files are saved at")
+    args.add_argument("--output", "-o", default="./pixelated", help="Output directory, where all pixelated files are saved at")
     args.add_argument("--mode", "-m", default="pixelate", choices=["pixelate", "blur", "color"], help="Anonymization mode")
     args.add_argument("--threshold", "-t", default=0.5, help="Threshold for face recognition")
     args.add_argument("--backend", default="auto", choices=["auto, onnxrt", "opencv"], help="Backend for face recognition")
