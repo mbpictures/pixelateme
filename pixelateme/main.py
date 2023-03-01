@@ -40,7 +40,9 @@ def get_blurred_frame(face_detection: FaceDetection, blur: Blur, frame):
 
 def get_output_file_name(path, kwargs):
     basename = os.path.splitext(path)
-    return os.path.join(kwargs.get("output"), basename[0] + kwargs.get("suffix") + basename[1])
+    folder = os.path.join(os.path.abspath(kwargs.get("output")), basename[0] + kwargs.get("suffix") + basename[1])
+    os.makedirs(os.path.dirname(folder), exist_ok=True)
+    return folder
 
 
 def process_image(path, face_detection: FaceDetection, blur: Blur, kwargs):
