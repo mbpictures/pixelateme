@@ -4,9 +4,9 @@ from tqdm import tqdm
 
 import cv2
 
-from face_detection import FaceDetection
-from centerface import CenterFace
-from blur import Blur
+from pixelateme.face_detection import FaceDetection
+from pixelateme.centerface import CenterFace
+from pixelateme.blur import Blur
 
 
 def get_files(paths):
