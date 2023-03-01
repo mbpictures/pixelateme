@@ -69,7 +69,7 @@ def run(**kwargs):
     centerface = CenterFace(backend=kwargs.get("backend"))
     all_except_images, only_this_images = [], []
     face_detection = FaceDetection(centerface, kwargs.get("threshold"), all_except_images=all_except_images, only_this_images=only_this_images)
-    blur = Blur(kwargs.get("mode"), kwargs.get("ellipse"))
+    blur = Blur(**kwargs)
 
     paths = get_files(kwargs.get("path"))
     if len(paths) > 1:

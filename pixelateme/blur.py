@@ -3,9 +3,10 @@ import numpy as np
 
 
 class Blur:
-    def __init__(self, mode="blur", ellipse=True):
+    def __init__(self, mode="blur", ellipse=True, **kwargs):
         self.mode = mode
         self.ellipse = ellipse
+        self.kwargs = kwargs
 
     @staticmethod
     def get_ellipse(box):
@@ -41,13 +42,13 @@ class Blur:
         return np.where(mask > 0, zeros, image)
 
     def blur(self, image, boxes):
-        blurred = cv2.medianBlur(image, 40)
+        blurred = cv2.medianBlur(image, (2 * self.kwargs.get("blur_strength")) + 1)
         mask = self.get_mask(image.shape, boxes)
         return np.where(mask > 0, blurred, image)
 
     def pixelate(self, image, boxes):
         mask = self.get_mask(image.shape, boxes)
-        w, h = (16, 16)
+        w, h = (self.kwargs.get("pixelate-size"), self.kwargs.get("pixelate_size"))
         height, width = image.shape[:2]
         temp = cv2.resize(image, (int(width / w), int(height / h)), interpolation=cv2.INTER_LINEAR)
         pixelate = cv2.resize(temp, (width, height), interpolation=cv2.INTER_NEAREST)
