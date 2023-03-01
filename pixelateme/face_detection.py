@@ -32,5 +32,6 @@ class FaceDetection:
     def get_boxes(self, frame):
         dets, _ = self.centerface(frame, threshold=self.threshold)
         boxes = list(map(lambda x: x[:4], dets))
+        boxes = list(map(lambda x: list(map(lambda y: int(y), x)), boxes))
 
         return self.filter_boxes(frame, boxes)
