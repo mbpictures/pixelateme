@@ -17,6 +17,7 @@ def parse_args():
     args.add_argument("--blur-strength", dest="blur_strength", type=int, default=20, help="Strength of the blur effect. The higher the value, the stronger the blur. Only working when mode is blur")
     args.add_argument("--pixelate-size", dest="pixelate_size", type=int, default=16, help="Raster size of pixelated effect. The low the value, the more blocks are generated. Only working when mode is pixelate")
     args.add_argument("--deepface-similarity", dest="deepface_similarity", type=float, default=0.4, help="Maximum cosinus similarity of two faces, that are considered as 'same face'. Only relevant with either only-blur-this-faces or blur-except-this-faces set.")
+    args.add_argument("--preview", dest="preview", action="store_true", help="Open Window displaying preview of the pixelated image")
 
     return args.parse_args()
 

@@ -9,6 +9,8 @@ from pixelateme.centerface import CenterFace
 from pixelateme.blur import Blur
 
 
+kill_preview = False
+
 def get_files(paths):
     result = []
     for path in paths:
@@ -33,9 +35,17 @@ def get_type(path):
     return None
 
 
-def get_blurred_frame(face_detection: FaceDetection, blur: Blur, frame):
+def get_blurred_frame(face_detection: FaceDetection, blur: Blur, frame, preview):
+    global kill_preview
     boxes = face_detection.get_boxes(frame)
-    return blur.blur_faces(image=frame, boxes=boxes)
+    blurred = blur.blur_faces(image=frame, boxes=boxes)
+    if preview and not kill_preview:
+        cv2.imshow("Preview (press q to exit preview, blurring will continue)", cv2.resize(blurred, (720, 480)))
+        a = cv2.waitKey(1)
+        if a == ord('q'):
+            kill_preview = True
+            cv2.destroyAllWindows()
+    return blurred
 
 
 def get_output_file_name(path, kwargs):
@@ -47,7 +57,7 @@ def get_output_file_name(path, kwargs):
 
 def process_image(path, face_detection: FaceDetection, blur: Blur, kwargs):
     frame = cv2.imread(path)
-    blurred = get_blurred_frame(face_detection, blur, frame)
+    blurred = get_blurred_frame(face_detection, blur, frame, kwargs.get("preview"))
     cv2.imwrite(get_output_file_name(path, kwargs), blurred)
 
 
@@ -56,7 +66,7 @@ def process_video(path, face_detection: FaceDetection, blur: Blur, kwargs):
     ret, img = cap.read()
     out = cv2.VideoWriter(get_output_file_name(path, kwargs), -1, 20, (img.shape[1], img.shape[0]))
     while ret:
-        blurred = get_blurred_frame(face_detection, blur, img)
+        blurred = get_blurred_frame(face_detection, blur, img, kwargs.get("preview"))
         out.write(blurred)
 
         ret, img = cap.read()
