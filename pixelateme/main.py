@@ -1,5 +1,7 @@
 import os.path
 import mimetypes
+
+import numpy
 from tqdm import tqdm
 
 import cv2
@@ -35,12 +37,23 @@ def get_type(path):
     return None
 
 
+def scale_preview_image(image, width=720, height=480):
+    border_v = 0
+    border_h = 0
+    if (height / width) >= (image.shape[0] / image.shape[1]):
+        border_v = int((((height / width) * image.shape[1]) - image.shape[0]) / 2)
+    else:
+        border_h = int((((width / height) * image.shape[0]) - image.shape[1]) / 2)
+    img = cv2.copyMakeBorder(image, border_v, border_v, border_h, border_h, cv2.BORDER_CONSTANT, 0)
+    return cv2.resize(img, (width, height))
+
+
 def get_blurred_frame(face_detection: FaceDetection, blur: Blur, frame, preview):
     global kill_preview
     boxes = face_detection.get_boxes(frame)
     blurred = blur.blur_faces(image=frame, boxes=boxes)
     if preview and not kill_preview:
-        cv2.imshow("Preview (press q to exit preview, blurring will continue)", cv2.resize(blurred, (720, 480)))
+        cv2.imshow("Preview (press q to exit preview, blurring will continue)", scale_preview_image(blurred))
         a = cv2.waitKey(1)
         if a == ord('q'):
             kill_preview = True
