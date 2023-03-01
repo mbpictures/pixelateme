@@ -6,18 +6,19 @@ class FaceDetection:
         self.all_except_images = all_except_images_data
         self.only_this_images = only_this_images_data
         self.threshold = kwargs.get("threshold")
+        self.deepface_similarity = kwargs.get("deepface_similarity")
         self.centerface = centerface
 
     def blur_face(self, face):
         for image in self.all_except_images:
-            result = DeepFace.verify(face, image)
-            if result["verified"]:
+            result = DeepFace.verify(face, image, enforce_detection=False)
+            if result["distance"] <= self.deepface_similarity:
                 return False
 
         blur = True
         for image in self.only_this_images:
-            result = DeepFace.verify(face, image)
-            if result["verified"]:
+            result = DeepFace.verify(face, image, enforce_detection=False)
+            if result["distance"] <= self.deepface_similarity:
                 return True
             blur = False
 
