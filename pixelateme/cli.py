@@ -1,6 +1,6 @@
 import argparse
 
-import main as main_runner
+from pixelateme.main import run
 
 
 def parse_args():
@@ -21,5 +21,5 @@ def parse_args():
 def main():
     args = parse_args()
 
-    main_runner.run(**vars(args))
+    run(**vars(args))
 
