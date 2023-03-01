@@ -10,8 +10,8 @@ class Blur:
     @staticmethod
     def get_ellipse(box):
         x1, y1, x2, y2 = box
-        center = (x2 - x1) // 2, (y2 - y1) // 2
-        size = x2 - x1, y2 - y1
+        center = x1 + (x2 - x1) // 2, y1 + (y2 - y1) // 2
+        size = (x2 - x1) // 2, (y2 - y1) // 2
         return center, size
 
     @staticmethod
