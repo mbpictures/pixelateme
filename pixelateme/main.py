@@ -68,7 +68,17 @@ def process_video(path, face_detection: FaceDetection, blur: Blur, kwargs):
 def run(**kwargs):
     centerface = CenterFace(backend=kwargs.get("backend"))
     all_except_images, only_this_images = [], []
-    face_detection = FaceDetection(centerface, kwargs.get("threshold"), all_except_images=all_except_images, only_this_images=only_this_images)
+    if kwargs.get("all_except_images") is not None:
+        all_except_image_files = get_files([kwargs.get("all_except_images")])
+        for path in all_except_image_files:
+            all_except_images.append(cv2.imread(path))
+
+    if kwargs.get("only_this_images") is not None:
+        only_this_images_files = get_files([kwargs.get("only_this_images")])
+        for path in only_this_images_files:
+            all_except_images.append(cv2.imread(path))
+
+    face_detection = FaceDetection(centerface, all_except_images_data=all_except_images, only_this_images_data=only_this_images, **kwargs)
     blur = Blur(**kwargs)
 
     paths = get_files(kwargs.get("path"))

@@ -2,10 +2,10 @@ from deepface import DeepFace
 
 
 class FaceDetection:
-    def __init__(self, centerface, threshold=0.5, all_except_images=[], only_this_images=[]):
-        self.all_except_images = all_except_images
-        self.only_this_images = only_this_images
-        self.threshold = threshold
+    def __init__(self, centerface, all_except_images_data=[], only_this_images_data=[], **kwargs):
+        self.all_except_images = all_except_images_data
+        self.only_this_images = only_this_images_data
+        self.threshold = kwargs.get("threshold")
         self.centerface = centerface
 
     def blur_face(self, face):
