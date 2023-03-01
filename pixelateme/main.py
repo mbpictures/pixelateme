@@ -109,3 +109,6 @@ def run(**kwargs):
             process_video(path, face_detection, blur, kwargs)
         else:
             process_image(path, face_detection, blur, kwargs)
+
+    if kwargs.get("preview"):
+        cv2.destroyAllWindows()
