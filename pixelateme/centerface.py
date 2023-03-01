@@ -73,14 +73,14 @@ class CenterFace:
 
     def __call__(self, img, threshold=0.5):
         img = CenterFace.ensure_rgb(img)
-        self.orig_shape = img.shape[:2]
-        if self.in_shape is None:
-            self.in_shape = self.orig_shape[::-1]
-        if not hasattr(self, 'h_new'):  # First call, need to compute sizes
-            self.w_new, self.h_new, self.scale_w, self.scale_h = self.transform(self.in_shape)
+        orig_shape = img.shape[:2]
+        in_shape = self.in_shape
+        if in_shape is None:
+            in_shape = orig_shape[::-1]
+        w_new, h_new, scale_w, scale_h = self.transform(in_shape, orig_shape)
 
         blob = cv2.dnn.blobFromImage(
-            img, scalefactor=1.0, size=(self.w_new, self.h_new),
+            img, scalefactor=1.0, size=(w_new, h_new),
             mean=(0, 0, 0), swapRB=False, crop=False
         )
         if self.backend == 'opencv':
@@ -90,18 +90,18 @@ class CenterFace:
             heatmap, scale, offset, lms = self.sess.run(self.onnx_output_names, {self.onnx_input_name: blob})
         else:
             raise RuntimeError(f'Unknown backend {self.backend}')
-        dets, lms = self.decode(heatmap, scale, offset, lms, (self.h_new, self.w_new), threshold=threshold)
+        dets, lms = self.decode(heatmap, scale, offset, lms, (h_new, w_new), threshold=threshold)
         if len(dets) > 0:
-            dets[:, 0:4:2], dets[:, 1:4:2] = dets[:, 0:4:2] / self.scale_w, dets[:, 1:4:2] / self.scale_h
-            lms[:, 0:10:2], lms[:, 1:10:2] = lms[:, 0:10:2] / self.scale_w, lms[:, 1:10:2] / self.scale_h
+            dets[:, 0:4:2], dets[:, 1:4:2] = dets[:, 0:4:2] / scale_w, dets[:, 1:4:2] / scale_h
+            lms[:, 0:10:2], lms[:, 1:10:2] = lms[:, 0:10:2] / scale_w, lms[:, 1:10:2] / scale_h
         else:
             dets = np.empty(shape=[0, 5], dtype=np.float32)
             lms = np.empty(shape=[0, 10], dtype=np.float32)
 
         return dets, lms
 
-    def transform(self, in_shape):
-        h_orig, w_orig = self.orig_shape
+    def transform(self, in_shape, orig_shape):
+        h_orig, w_orig = orig_shape
         w_new, h_new = in_shape
         if w_new > self.max_size or h_new > self.max_size:
             if w_new > h_new:
