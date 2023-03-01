@@ -49,7 +49,7 @@ class Blur:
         mask = self.get_mask(image.shape, boxes)
         w, h = (16, 16)
         height, width = image.shape[:2]
-        temp = cv2.resize(image, (width / w, height / h), interpolation=cv2.INTER_LINEAR)
+        temp = cv2.resize(image, (int(width / w), int(height / h)), interpolation=cv2.INTER_LINEAR)
         pixelate = cv2.resize(temp, (width, height), interpolation=cv2.INTER_NEAREST)
 
         return np.where(mask > 0, pixelate, image)
