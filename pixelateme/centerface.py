@@ -9,8 +9,9 @@ import cv2
 class CenterFace:
     default_onnx_path = f'{os.path.dirname(__file__)}/centerface.onnx'
 
-    def __init__(self, onnx_path=None, in_shape=None, backend='auto'):
+    def __init__(self, onnx_path=None, in_shape=None, backend='auto', max_size=640):
         self.in_shape = in_shape
+        self.max_size = max_size
         self.onnx_input_name = 'input.1'
         self.onnx_output_names = ['537', '538', '539', '540']
 
@@ -37,8 +38,6 @@ class CenterFace:
             static_model = onnx.load(onnx_path)
             dyn_model = self.dynamicize_shapes(static_model)
             self.sess = onnxruntime.InferenceSession(dyn_model.SerializeToString(), providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
-
-            preferred_provider = self.sess.get_providers()[0]
 
     @staticmethod
     def ensure_rgb(img: np.ndarray) -> np.ndarray:
@@ -104,6 +103,13 @@ class CenterFace:
     def transform(self, in_shape):
         h_orig, w_orig = self.orig_shape
         w_new, h_new = in_shape
+        if w_new > self.max_size or h_new > self.max_size:
+            if w_new > h_new:
+                h_new = h_new * (self.max_size / w_new)
+                w_new = self.max_size
+            else:
+                w_new = w_new * (self.max_size / h_new)
+                h_new = self.max_size
         # Make spatial dims divisible by 32
         w_new, h_new = int(np.ceil(w_new / 32) * 32), int(np.ceil(h_new / 32) * 32)
         scale_w, scale_h = w_new / w_orig, h_new / h_orig

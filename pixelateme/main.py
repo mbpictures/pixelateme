@@ -76,7 +76,11 @@ def process_video(path, face_detection: FaceDetection, blur: Blur, kwargs):
 
 
 def run(**kwargs):
-    centerface = CenterFace(backend=kwargs.get("backend"))
+    in_shape = None
+    if kwargs.get("face_recognition_size") is not None:
+        splitted = kwargs.get("face_recognition_size").split("x")
+        in_shape = int(splitted[0]), int(splitted[1])
+    centerface = CenterFace(backend=kwargs.get("backend"), in_shape=in_shape)
     all_except_images, only_this_images = [], []
     if kwargs.get("all_except_images") is not None:
         all_except_image_files = get_files([kwargs.get("all_except_images")])
