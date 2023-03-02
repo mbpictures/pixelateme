@@ -39,7 +39,7 @@ This will create a new ```pixelated``` folder, where all the pixelated files are
 * ```--only-blur-this-faces```: Folder containing images of faces (one face per image), which should be considered for anonymization. All other faces won't be anonymized. Default: None
 * ```--blur-except-this-faces```: Folder containing images of faces (one face per image), which should be ignored for anonymization. Default: None
 * ```--ellipse```: Uses ellipses as form for anonymization. Default is rectangle
-* ```--blur-strength```: Defines how "blurry" a face will be. Only working with ```--mode``` "blur". Default: 20
+* ```--blur-strength```: Defines how "blurry" a face will be. Only working with ```--mode``` "blur". Default: 3
 * ```--pixelate-size```: Size of pixelation effect. The higher the value, the harder it is to recognize the face. Default: 16
 * ```--deepface-similarity```: Maximum similarity between two faces. Higher value means, that more faces are considered as equal. Only working in combination with ```--blur-except-this-faces``` or ```--only-blur-this-faces```. Default: 0.4
 * ```--preview```: Enable preview of the currently processed image. No preview is default

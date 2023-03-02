@@ -42,7 +42,10 @@ class Blur:
         return np.where(mask > 0, zeros, image)
 
     def blur(self, image, boxes):
-        blurred = cv2.medianBlur(image, (2 * self.kwargs.get("blur_strength")) + 1)
+        kernel_size = int(self.kwargs.get("blur_strength") / 100 * image.shape[1]), int(
+            self.kwargs.get("blur_strength") / 100 * image.shape[1])
+        kernel_size = tuple(map(lambda x: x if x % 2 == 1 else x + 1, kernel_size))
+        blurred = cv2.GaussianBlur(image, kernel_size, 0)
         mask = self.get_mask(image.shape, boxes)
         return np.where(mask > 0, blurred, image)
 
