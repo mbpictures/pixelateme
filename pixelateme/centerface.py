@@ -20,17 +20,16 @@ class CenterFace:
 
         if backend == 'auto':
             try:
+                import onnx
+                import onnxruntime
                 backend = 'onnxrt'
             except:
                 backend = 'opencv'
         self.backend = backend
 
-
         if self.backend == 'opencv':
             self.net = cv2.dnn.readNetFromONNX(onnx_path)
         elif self.backend == 'onnxrt':
-            import onnx
-            import onnxruntime
 
             # Silence warnings about unnecessary bn initializers
             onnxruntime.set_default_logger_severity(3)
