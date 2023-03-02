@@ -5,6 +5,10 @@ Your python package to anonymize faces in images and videos
     <a href="LICENSE" target="_blank">
         <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge" />
     </a>
+    <img src="https://img.shields.io/github/actions/workflow/status/mbpictures/pixelateme/python-publish.yml?color=%2397CA00&style=for-the-badge" />
+    <a href="https://pypi.org/project/PixelateMe/" target="_blank">
+        <img src="https://img.shields.io/pypi/v/pixelateme?style=for-the-badge" />
+    </a>
 </p>
 </h1>
 
