@@ -1,7 +1,6 @@
 import os.path
 import mimetypes
 
-import numpy
 from tqdm import tqdm
 
 import cv2
@@ -78,7 +77,9 @@ def process_image(path, face_detection: FaceDetection, blur: Blur, pbar, kwargs)
 def process_video(path, face_detection: FaceDetection, blur: Blur, pbar, kwargs):
     cap = cv2.VideoCapture(path)
     ret, img = cap.read()
-    out = cv2.VideoWriter(get_output_file_name(path, kwargs), -1, 20, (img.shape[1], img.shape[0]))
+    out = cv2.VideoWriter(get_output_file_name(path, kwargs), int(cap.get(cv2.CAP_PROP_FOURCC)),
+                          cap.get(cv2.CAP_PROP_FPS),
+                          (img.shape[1], img.shape[0]))
     while ret:
         blurred = get_blurred_frame(face_detection, blur, img, kwargs.get("preview"))
         out.write(blurred)
@@ -122,7 +123,8 @@ def run(**kwargs):
         for path in only_this_images_files:
             all_except_images.append(cv2.imread(path))
 
-    face_detection = FaceDetection(centerface, all_except_images_data=all_except_images, only_this_images_data=only_this_images, **kwargs)
+    face_detection = FaceDetection(centerface, all_except_images_data=all_except_images,
+                                   only_this_images_data=only_this_images, **kwargs)
     blur = Blur(**kwargs)
 
     paths = get_files(kwargs.get("path"))
