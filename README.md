@@ -15,8 +15,8 @@ Your python package to anonymize faces in images and videos
 > With this CLI tool you can pixelate, blur or remove faces from videos and images. GPU acceleration supported.
 
 <p align="center">
-    <img src="demos/image.png" />
-    <img src="demos/video.gif" />
+    <img src="https://raw.githubusercontent.com/mbpictures/pixelateme/master/demos/image.png" />
+    <img src="https://raw.githubusercontent.com/mbpictures/pixelateme/master/demos/video.gif" />
 </p>
 
 ## ⚡️ Quickstart
