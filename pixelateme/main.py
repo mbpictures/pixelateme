@@ -68,24 +68,41 @@ def get_output_file_name(path, kwargs):
     return folder
 
 
-def process_image(path, face_detection: FaceDetection, blur: Blur, kwargs):
+def process_image(path, face_detection: FaceDetection, blur: Blur, pbar, kwargs):
     frame = cv2.imread(path)
     blurred = get_blurred_frame(face_detection, blur, frame, kwargs.get("preview"))
     cv2.imwrite(get_output_file_name(path, kwargs), blurred)
+    pbar.update(1)
 
 
-def process_video(path, face_detection: FaceDetection, blur: Blur, kwargs):
+def process_video(path, face_detection: FaceDetection, blur: Blur, pbar, kwargs):
     cap = cv2.VideoCapture(path)
     ret, img = cap.read()
     out = cv2.VideoWriter(get_output_file_name(path, kwargs), -1, 20, (img.shape[1], img.shape[0]))
     while ret:
         blurred = get_blurred_frame(face_detection, blur, img, kwargs.get("preview"))
         out.write(blurred)
+        pbar.update(1)
 
         ret, img = cap.read()
 
     cap.release()
     out.release()
+
+
+def get_frame_amount(paths):
+    frames = 0
+    for path in paths:
+        file_type = get_type(path)
+        if file_type is None:
+            continue
+        if file_type == "video":
+            cap = cv2.VideoCapture(path)
+            frames += int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+            cap.release()
+        else:
+            frames += 1
+    return frames
 
 
 def run(**kwargs):
@@ -109,8 +126,10 @@ def run(**kwargs):
     blur = Blur(**kwargs)
 
     paths = get_files(kwargs.get("path"))
-    if len(paths) > 1:
-        paths = tqdm(paths, desc="Processing files...")
+    frame_amount = get_frame_amount(paths)
+    pbar = None
+    if frame_amount > 1:
+        pbar = tqdm(total=frame_amount, desc="Processing frames...")
 
     for path in paths:
         file_type = get_type(path)
@@ -119,9 +138,9 @@ def run(**kwargs):
             print(f"Warning: File {path} is not a video and not an image, skipping...")
 
         if file_type == "video":
-            process_video(path, face_detection, blur, kwargs)
+            process_video(path, face_detection, blur, pbar, kwargs)
         else:
-            process_image(path, face_detection, blur, kwargs)
+            process_image(path, face_detection, blur, pbar, kwargs)
 
     if kwargs.get("preview"):
         cv2.destroyAllWindows()
