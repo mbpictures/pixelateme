@@ -1,5 +1,7 @@
 import os.path
 import mimetypes
+from multiprocessing.pool import ThreadPool as Pool
+from multiprocessing import Queue
 
 from tqdm import tqdm
 
@@ -11,6 +13,8 @@ from pixelateme.blur import Blur
 
 
 kill_preview = False
+detection_buffer = None
+
 
 def get_files(paths):
     result = []
@@ -36,6 +40,11 @@ def get_type(path):
     return None
 
 
+def init_pool(d_b):
+    global detection_buffer
+    detection_buffer = d_b
+
+
 def scale_preview_image(image, width=720, height=480):
     border_v = 0
     border_h = 0
@@ -49,14 +58,18 @@ def scale_preview_image(image, width=720, height=480):
 
 def get_blurred_frame(face_detection: FaceDetection, blur: Blur, frame, preview):
     global kill_preview
+    global detection_buffer
     boxes = face_detection.get_boxes(frame)
     blurred = blur.blur_faces(image=frame, boxes=boxes)
     if preview and not kill_preview:
-        cv2.imshow("Preview (press q to exit preview, blurring will continue)", scale_preview_image(blurred))
-        a = cv2.waitKey(1)
-        if a == ord('q'):
-            kill_preview = True
-            cv2.destroyAllWindows()
+        if detection_buffer is None:
+            cv2.imshow("Preview (press q to exit preview, blurring will continue)", scale_preview_image(blurred))
+            a = cv2.waitKey(1)
+            if a == ord('q'):
+                kill_preview = True
+                cv2.destroyAllWindows()
+        else:
+            detection_buffer.put(scale_preview_image(blurred))
     return blurred
 
 
@@ -106,6 +119,31 @@ def get_frame_amount(paths):
     return frames
 
 
+def process_path(path, face_detection, blur, pbar, kwargs):
+    file_type = get_type(path)
+
+    if file_type is None:
+        print(f"Warning: File {path} is not a video and not an image, skipping...")
+
+    if file_type == "video":
+        process_video(path, face_detection, blur, pbar, kwargs)
+    else:
+        process_image(path, face_detection, blur, pbar, kwargs)
+
+
+def show():
+    while True:
+        frame = detection_buffer.get()
+        if frame is not None:
+            cv2.imshow("Preview (press q to exit preview, blurring will continue)", frame)
+        else:
+            break
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            cv2.destroyAllWindows()
+            break
+    return
+
+
 def run(**kwargs):
     in_shape = None
     if kwargs.get("face_recognition_size") is not None:
@@ -133,16 +171,25 @@ def run(**kwargs):
     if frame_amount > 1:
         pbar = tqdm(total=frame_amount, desc="Processing frames...")
 
-    for path in paths:
-        file_type = get_type(path)
+    if kwargs.get("multiprocessing"):
+        buffer = Queue()
+        pool = Pool(kwargs.get("parallel_processes") + 1, initializer=init_pool, initargs=(buffer,))
+        if kwargs.get("preview"):
+            show_future = pool.apply_async(show)
+        futures = []
+        for path in paths:
+            f = pool.apply_async(process_path, args=(path, face_detection, blur, pbar, kwargs,))
+            futures.append(f)
 
-        if file_type is None:
-            print(f"Warning: File {path} is not a video and not an image, skipping...")
-
-        if file_type == "video":
-            process_video(path, face_detection, blur, pbar, kwargs)
-        else:
-            process_image(path, face_detection, blur, pbar, kwargs)
+        for f in futures:
+            f.get()
+        if kwargs.get("preview"):
+            global detection_buffer
+            detection_buffer.put(None)
+            show_future.get()
+    else:
+        for path in paths:
+            process_path(path, face_detection, blur, pbar, kwargs)
 
     if kwargs.get("preview"):
         cv2.destroyAllWindows()

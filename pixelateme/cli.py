@@ -20,6 +20,8 @@ def parse_args():
     args.add_argument("--preview", dest="preview", action="store_true", help="Open Window displaying preview of the pixelated image")
     args.add_argument("--face-recognition-size", dest="face_recognition_size", default=None, help="Maximum size of image used for face recognition in the format WxH (e.g. 720x480). Larger images/videos will be downscaled. Has no affect on output resolution.")
     args.add_argument("--maximum-face-recognition-size", dest="max_face_recognition_size", default=640, type=int, help="The maximum number of pixels of the longest side. Image/Video will be scaled down according longest side.")
+    args.add_argument("--multiprocessing", dest="multiprocessing", action="store_true", help="Enable multi processing for faster CPU execution")
+    args.add_argument("--parallel-processes", dest="parallel_processes", default=4, type=int, help="Number of parallel anonymization processes. One proccess is additional created for displaying preview (if enabled).")
 
     return args.parse_args()
 

@@ -50,6 +50,8 @@ This will create a new ```pixelated``` folder, where all the pixelated files are
 * ```--preview```: Enable preview of the currently processed image. No preview is default
 * ```--face-recognition-size```: Image size to use for face recognition. Format: WxH (e.g. 720x480). Default: None
 * ```--maximum-face-recognition-size```: Maximum number of pixels of the longest side for face recognition. Images larger than this will be downscaled for face recognition. This doesn't affect output resolution. Default: 640
+* ```--multiprocessing```: Enable multiprocessing to process files in videos. Useful when anonymizing multiple large videos. Disabled by default
+* ```--parallel-processes```: Number of parallel processes. Only works with ```--multiprocessing``` enabled. Default: 4
 
 ## 👥 Author
 
