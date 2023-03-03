@@ -12,13 +12,19 @@ Your python package to anonymize faces in images and videos
 
 <p align="center">
     <img src="demos/image.png" />
+    <em>Original image from <a href="https://unsplash.com/de/fotos/wdVwF3Ese4o" target="_blank">unsplash.com</a> by Susan G. Komen 3-Day</em>
     <img src="demos/video.gif" />
+    <em>Original video from <a href="https://www.pexels.com/video/close-up-video-of-man-wearing-red-hoodie-3249935/" target="_blank">pexels.com</a> by fauxels</em>
 </p>
 
 ## ⚡️ Quickstart
 ### 📥 Install
 ```shell
 pip install pixelateme
+```
+With GPU support (additionally installs ```onnxruntime-gpu```:
+```shell
+pip install pixelateme[gpu]
 ```
 
 ### ▶️ Run
