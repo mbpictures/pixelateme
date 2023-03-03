@@ -5,15 +5,19 @@ Your python package to anonymize faces in images and videos
     <a href="LICENSE" target="_blank">
         <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge" />
     </a>
+    <img src="https://img.shields.io/github/actions/workflow/status/mbpictures/pixelateme/python-publish.yml?color=%2397CA00&style=for-the-badge" />
+    <a href="https://pypi.org/project/PixelateMe/" target="_blank">
+        <img src="https://img.shields.io/pypi/v/pixelateme?style=for-the-badge" />
+    </a>
 </p>
 </h1>
 
 > With this CLI tool you can pixelate, blur or remove faces from videos and images. GPU acceleration supported.
 
 <p align="center">
-    <img src="demos/image.png" />
+    <img src="https://raw.githubusercontent.com/mbpictures/pixelateme/master/demos/image.png" />
     <em>Original image from <a href="https://unsplash.com/de/fotos/wdVwF3Ese4o" target="_blank">unsplash.com</a> by Susan G. Komen 3-Day</em>
-    <img src="demos/video.gif" />
+    <img src="https://raw.githubusercontent.com/mbpictures/pixelateme/master/demos/video.gif" />
     <em>Original video from <a href="https://www.pexels.com/video/close-up-video-of-man-wearing-red-hoodie-3249935/" target="_blank">pexels.com</a> by fauxels</em>
 </p>
 
@@ -58,6 +62,13 @@ This will create a new ```pixelated``` folder, where all the pixelated files are
 * ```--maximum-face-recognition-size```: Maximum number of pixels of the longest side for face recognition. Images larger than this will be downscaled for face recognition. This doesn't affect output resolution. Default: 640
 * ```--multiprocessing```: Enable multiprocessing to process files in videos. Useful when anonymizing multiple large videos. Disabled by default
 * ```--parallel-processes```: Number of parallel processes. Only works with ```--multiprocessing``` enabled. Default: 4
+
+## 👏 Acknowledgements
+* [**deface**](https://github.com/ORB-HD/deface): Deface inspired me to create this package and how to implement CenterFace
+* [**CenterFace**](https://github.com/Star-Clouds/CenterFace): Used for face detection
+* [**DeepFace**](https://github.com/serengil/deepface): Used for face recognition
+* [**ONNX**](https://github.com/onnx/onnx): Backend for face detection
+* [**OpenCV**](https://opencv.org/): Backend for face detection, used for I/O and face anonymization (blur, pixelation and color)
 
 ## 👥 Author
 
