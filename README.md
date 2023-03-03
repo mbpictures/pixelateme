@@ -44,6 +44,7 @@ This will create a new ```pixelated``` folder, where all the pixelated files are
 - Preview of current processed files
 - Face Recognition to only blur specific faces or to blur all faces except specific ones
 - ONNXRT and OpenCV runtime backend
+- Process multiple files in parallel
 
 ## 💻 CLI Arguments
 * ```--suffix```: Filename suffix of processed files. Default: 
