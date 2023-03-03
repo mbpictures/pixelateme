@@ -55,6 +55,13 @@ This will create a new ```pixelated``` folder, where all the pixelated files are
 * ```--face-recognition-size```: Image size to use for face recognition. Format: WxH (e.g. 720x480). Default: None
 * ```--maximum-face-recognition-size```: Maximum number of pixels of the longest side for face recognition. Images larger than this will be downscaled for face recognition. This doesn't affect output resolution. Default: 640
 
+## 👏 Acknowledgements
+* [**deface**](https://github.com/ORB-HD/deface): Deface inspired me to create this package and how to implement CenterFace
+* [**CenterFace**](https://github.com/Star-Clouds/CenterFace): Used for face detection
+* [**DeepFace**](https://github.com/serengil/deepface): Used for face recognition
+* [**ONNX**](https://github.com/onnx/onnx): Backend for face detection
+* [**OpenCV**](https://opencv.org/): Backend for face detection, used for I/O and face anonymization (blur, pixelation and color)
+
 ## 👥 Author
 
 👤 **Marius Butz**
@@ -63,5 +70,5 @@ This will create a new ```pixelated``` folder, where all the pixelated files are
 
 ## ⭐️ Show your support
 
-- Give a [⭐️ star](https://github.com/mbpictures/tessera) if this project helped you!
-- Create a [🍴 fork](https://github.com/mbpictures/tessera) and contribute by fixing bugs or adding features
+- Give a [⭐️ star](https://github.com/mbpictures/pixelateme) if this project helped you!
+- Create a [🍴 fork](https://github.com/mbpictures/pixelateme) and contribute by fixing bugs or adding features
