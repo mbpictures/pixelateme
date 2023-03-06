@@ -14,9 +14,14 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/mbpictures/pixelateme',
     packages=find_packages(include=["pixelateme"]),
-    entry_points={'console_scripts': [
-        'pixelateme = pixelateme.cli:main',
-    ]},
+    entry_points={
+        'console_scripts': [
+            'pixelateme = pixelateme.cli:main',
+        ],
+        'gui_scripts': [
+            'pixelatemegui = pixelateme.gui:main'
+        ]
+    },
     package_data={'pixelateme': ['centerface.onnx']},
     include_package_data=True,
     install_requires=[
@@ -24,7 +29,8 @@ setup(
         'tqdm',
         'opencv-python',
         'onnx',
-        'onnxruntime'
+        'onnxruntime',
+        'gooey'
     ],
     extras_require={
         'gpu':  ['onnxruntime-gpu'],

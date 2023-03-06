@@ -40,6 +40,11 @@ pixelateme --mode blur FOLDER_OR_FILES
 ```
 This will create a new ```pixelated``` folder to hold all the pixelated files.
 
+To launch the gui directly open the ```pixelategui``` executable from the packages folder of your python installation or:
+```shell
+pixelatemegui
+```
+
 ### 📝 Custom code
 To use this package in your own code, you can import the main module. This module exports a run method that accepts all CLI arguments as parameters.
 ```python
@@ -55,6 +60,7 @@ run(path=["FILE_PATHS"])
 - Face Recognition to blur only certain faces or all faces except certain ones
 - ONNXRT and OpenCV run-time backend
 - Process multiple files in parallel
+- GUI
 
 ## 💻 CLI Arguments
 * ```--suffix```: Filename suffix of processed files. Default: 
