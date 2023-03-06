@@ -79,14 +79,25 @@ run(path=["FILE_PATHS"])
 * ```--maximum-face-recognition-size```: Maximum number of pixels of the longest side for face detection. Images larger than this will be downscaled for face recognition. This doesn't affect output resolution. Default: 640
 * ```--multiprocessing```: Enable multiprocessing to process files in videos. Useful when anonymizing multiple large videos. Disabled by default
 * ```--parallel-processes```: Number of parallel processes. Only works with ```--multiprocessing``` enabled. Default: 4
+* ```--soft-mask```: Enables a soft transition between blurred and original image. Disabled by default
+* ```--soft-mask-strength```: Defines the feather strength of the mask edge. Default: 7
 
 ## 🔧 Settings Overview
+### Modes
+
 | Mode     |                                                                                                  | Strength 3 (default)                                                                                            | Strength 6                                                                                                      |
 |----------|--------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
 | Pixelate |                                                                                                  | ![Pixelate 3](https://raw.githubusercontent.com/mbpictures/pixelateme/master/demos/pixelate-3.jpg "Pixelate 3") | ![Pixelate 6](https://raw.githubusercontent.com/mbpictures/pixelateme/master/demos/pixelate-6.jpg "Pixelate 6") |
 | Blur     |                                                                                                  | ![Blur 3](https://raw.githubusercontent.com/mbpictures/pixelateme/master/demos/blur-3.jpg "Blur 3")             | ![Blur 6](https://raw.githubusercontent.com/mbpictures/pixelateme/master/demos/blur-6.jpg "Blur 6")             |
 | Color    | ![Color](https://raw.githubusercontent.com/mbpictures/pixelateme/master/demos/color.jpg "Color") |                                                                                                                 |                                                                                                                 |
 
+### Soft Mask
+
+| Soft Mask Strength    |                                                                                                                       |
+|-----------------------|-----------------------------------------------------------------------------------------------------------------------|
+| Disabled              | ![Disabled](https://raw.githubusercontent.com/mbpictures/pixelateme/master/demos/blur-6.jpg "Disabled")               |
+| Strength 7 (Default)  | ![Strength 7](https://raw.githubusercontent.com/mbpictures/pixelateme/master/demos/blur-6-soft-7.jpg "Strength 7")    |
+| Strength 14           | ![Strength 14](https://raw.githubusercontent.com/mbpictures/pixelateme/master/demos/blur-6-soft-14.jpg "Strength 14") |
 ## 👏 Acknowledgements
 * [**deface**](https://github.com/ORB-HD/deface): Deface was one of my inspirations for this package and the implementation of CenterFace.
 * [**CenterFace**](https://github.com/Star-Clouds/CenterFace): Used for face detection
