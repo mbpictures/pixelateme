@@ -10,7 +10,7 @@ def parse_args():
     args.add_argument("--output", "-o", default="./pixelated", help="Output directory, where all pixelated files are saved at")
     args.add_argument("--mode", "-m", default="pixelate", choices=["pixelate", "blur", "color"], help="Anonymization mode")
     args.add_argument("--threshold", "-t", default=0.5, help="Threshold for face recognition")
-    args.add_argument("--backend", default="auto", choices=["auto, onnxrt", "opencv"], help="Backend for face recognition")
+    args.add_argument("--backend", default="auto", choices=["auto", "onnxrt", "opencv"], help="Backend for face recognition")
     args.add_argument("--only-blur-this-faces", default=None, dest="only_this_images", help="Folder containing images with faces. Only faces matching with one in this folder are pixelated")
     args.add_argument("--blur-except-this-faces", default=None, dest="all_except_images", help="Folder containing images with faces. Only faces, that don't match any face in the folder, are pixelated")
     args.add_argument("--ellipse", action="store_true", help="Use ellipses as form to pixelate face instead of a rectangle")
