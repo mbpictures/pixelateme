@@ -17,6 +17,8 @@ def parse_args():
                       help="Strength of the blur effect. The higher the value, the stronger the blur. Only working when mode is blur")
     blur_group.add_argument("--pixelate-size", dest="pixelate_size", type=float, default=5,
                       help="Raster size of pixelated effect. The low the value, the more blocks are generated. Only working when mode is pixelate")
+    blur_group.add_argument("--soft-mask", dest="soft_mask", action="store_true", help="Enables a soft transition between blurred and original image")
+    blur_group.add_argument("--soft-mask-strength", dest="soft_mask_strength", default=7, type=float, help="Defines the feather strength of the mask edge")
 
     face_detection = args.add_argument_group("Face Detection")
     face_detection.add_argument("--threshold", "-t", default=0.5, type=float, help="Threshold for face recognition", widget="DecimalField")

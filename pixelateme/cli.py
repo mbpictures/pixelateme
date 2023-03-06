@@ -22,6 +22,8 @@ def parse_args():
     args.add_argument("--maximum-face-recognition-size", dest="max_face_recognition_size", default=640, type=int, help="The maximum number of pixels of the longest side. Image/Video will be scaled down according longest side.")
     args.add_argument("--multiprocessing", dest="multiprocessing", action="store_true", help="Enable multi processing for faster CPU execution")
     args.add_argument("--parallel-processes", dest="parallel_processes", default=4, type=int, help="Number of parallel anonymization processes. One proccess is additional created for displaying preview (if enabled).")
+    args.add_argument("--soft-mask", dest="soft_mask", action="store_true", help="Enables a soft transition between blurred and original image")
+    args.add_argument("--soft-mask-strength", dest="soft_mask_strength", default=7, type=float, help="Defines the feather strength of the mask edge")
 
     return args.parse_args()
 

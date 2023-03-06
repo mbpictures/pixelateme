@@ -32,22 +32,33 @@ class Blur:
         return mask
 
     def get_mask(self, shape, boxes):
-        if self.ellipse:
-            return Blur.get_ellipse_masks(shape, boxes)
-        return Blur.get_box_masks(shape, boxes)
+        mask = Blur.get_ellipse_masks(shape, boxes) if self.ellipse else Blur.get_box_masks(shape, boxes)
+        if self.kwargs.get("soft_mask"):
+            mask = cv2.GaussianBlur(mask, self.get_blur_kernel(self.kwargs.get("soft_mask_strength"), mask.shape), 0)
+        return mask
+
+    @staticmethod
+    def get_blur_kernel(blur_strength, image_shape):
+        kernel_size = int(blur_strength / 100 * image_shape[1]), int(blur_strength / 100 * image_shape[1])
+        return tuple(map(lambda x: x if x % 2 == 1 else x + 1, kernel_size))
+
+    def mix_images(self, source: np.array, blurred: np.array, mask: np.array):
+        if not self.kwargs.get("soft_mask"):
+            return np.where(mask > 0, blurred, source)
+        mask = mask / 255
+        result = blurred * mask + source * (1 - mask)
+        return result.astype(np.uint8)
 
     def solid(self, image, boxes):
         mask = self.get_mask(image.shape, boxes)
         zeros = np.zeros(image.shape, dtype="uint8")
-        return np.where(mask > 0, zeros, image)
+        return self.mix_images(image, zeros, mask)
 
     def blur(self, image, boxes):
-        kernel_size = int(self.kwargs.get("blur_strength") / 100 * image.shape[1]), int(
-            self.kwargs.get("blur_strength") / 100 * image.shape[1])
-        kernel_size = tuple(map(lambda x: x if x % 2 == 1 else x + 1, kernel_size))
+        kernel_size = self.get_blur_kernel(self.kwargs.get("blur_strength"), image.shape)
         blurred = cv2.GaussianBlur(image, kernel_size, 0)
         mask = self.get_mask(image.shape, boxes)
-        return np.where(mask > 0, blurred, image)
+        return self.mix_images(image, blurred, mask)
 
     def pixelate(self, image, boxes):
         mask = self.get_mask(image.shape, boxes)
@@ -56,7 +67,7 @@ class Blur:
         temp = cv2.resize(image, (int(width / w), int(height / h)), interpolation=cv2.INTER_LINEAR)
         pixelate = cv2.resize(temp, (width, height), interpolation=cv2.INTER_NEAREST)
 
-        return np.where(mask > 0, pixelate, image)
+        return self.mix_images(image, pixelate, mask)
 
     def blur_faces(self, image, boxes):
         if self.mode == "color":
