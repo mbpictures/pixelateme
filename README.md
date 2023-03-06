@@ -80,6 +80,13 @@ run(path=["FILE_PATHS"])
 * ```--multiprocessing```: Enable multiprocessing to process files in videos. Useful when anonymizing multiple large videos. Disabled by default
 * ```--parallel-processes```: Number of parallel processes. Only works with ```--multiprocessing``` enabled. Default: 4
 
+## 🔧 Settings Overview
+| Mode     |                                                                                                  | Strength 3 (default)                                                                                            | Strength 6                                                                                                      |
+|----------|--------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| Pixelate |                                                                                                  | ![Pixelate 3](https://raw.githubusercontent.com/mbpictures/pixelateme/master/demos/pixelate-3.jpg "Pixelate 3") | ![Pixelate 6](https://raw.githubusercontent.com/mbpictures/pixelateme/master/demos/pixelate-6.jpg "Pixelate 6") |
+| Blur     |                                                                                                  | ![Blur 3](https://raw.githubusercontent.com/mbpictures/pixelateme/master/demos/blur-3.jpg "Blur 3")             | ![Blur 6](https://raw.githubusercontent.com/mbpictures/pixelateme/master/demos/blur-6.jpg "Blur 6")             |
+| Color    | ![Color](https://raw.githubusercontent.com/mbpictures/pixelateme/master/demos/color.jpg "Color") |                                                                                                                 |                                                                                                                 |
+
 ## 👏 Acknowledgements
 * [**deface**](https://github.com/ORB-HD/deface): Deface was one of my inspirations for this package and the implementation of CenterFace.
 * [**CenterFace**](https://github.com/Star-Clouds/CenterFace): Used for face detection
