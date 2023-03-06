@@ -72,7 +72,7 @@ run(path=["FILE_PATHS"])
 * ```--blur-except-this-faces```: Folder containing images of faces (one face per image), which should be ignored for anonymization. Default: None
 * ```--ellipse```: Uses ellipses as form for anonymization. Default is rectangle
 * ```--blur-strength```: Defines how "blurry" a face will be. Only working with ```--mode``` "blur". Default: 3
-* ```--pixelate-size```: Amount of pixelation effect. The lower the value, the harder it is to recognise the face. Default: 16
+* ```--pixelate-size```: Amount of pixelation effect. The higher the value, the harder it is to recognise the face. Default: 5
 * ```--deepface-similarity```: The maximum similarity between two faces. A higher value means that more faces are considered equal. Only working in combination with ```--blur-except-this-faces``` or ```--only-blur-this-faces```. Default: 0.4
 * ```--preview```: Enable preview of the currently processed image. No preview is default
 * ```--face-recognition-size```: Image size to use for face detection. Format: WxH (e.g. 720x480). Default: None

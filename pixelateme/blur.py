@@ -51,8 +51,8 @@ class Blur:
 
     def pixelate(self, image, boxes):
         mask = self.get_mask(image.shape, boxes)
-        w, h = (self.kwargs.get("pixelate_size"), self.kwargs.get("pixelate_size"))
         height, width = image.shape[:2]
+        w, h = (self.kwargs.get("pixelate_size") / 100 * width, self.kwargs.get("pixelate_size") / 100 * height)
         temp = cv2.resize(image, (int(width / w), int(height / h)), interpolation=cv2.INTER_LINEAR)
         pixelate = cv2.resize(temp, (width, height), interpolation=cv2.INTER_NEAREST)
 

@@ -15,7 +15,7 @@ def parse_args():
                       help="Use ellipses as form to pixelate face instead of a rectangle")
     blur_group.add_argument("--blur-strength", dest="blur_strength", type=float, default=3,
                       help="Strength of the blur effect. The higher the value, the stronger the blur. Only working when mode is blur")
-    blur_group.add_argument("--pixelate-size", dest="pixelate_size", type=int, default=16,
+    blur_group.add_argument("--pixelate-size", dest="pixelate_size", type=float, default=5,
                       help="Raster size of pixelated effect. The low the value, the more blocks are generated. Only working when mode is pixelate")
 
     face_detection = args.add_argument_group("Face Detection")
