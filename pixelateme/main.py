@@ -84,7 +84,8 @@ def process_image(path, face_detection: FaceDetection, blur: Blur, pbar, kwargs)
     frame = cv2.imread(path)
     blurred = get_blurred_frame(face_detection, blur, frame, kwargs.get("preview"))
     cv2.imwrite(get_output_file_name(path, kwargs), blurred)
-    pbar.update(1)
+    if pbar is not None:
+        pbar.update(1)
 
 
 def process_video(path, face_detection: FaceDetection, blur: Blur, pbar, kwargs):
@@ -96,7 +97,9 @@ def process_video(path, face_detection: FaceDetection, blur: Blur, pbar, kwargs)
     while ret:
         blurred = get_blurred_frame(face_detection, blur, img, kwargs.get("preview"))
         out.write(blurred)
-        pbar.update(1)
+
+        if pbar is not None:
+            pbar.update(1)
 
         ret, img = cap.read()
 
